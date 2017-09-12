@@ -40,15 +40,15 @@ function checkMultiplesOf(multiple1 = 3, multiple2 = 5) //DEFAULT MULTIPLES SEAR
     for(var x=1; x<=100; x++)
     {
       if(x%multiple1 == 0 && x%multiple2 == 0)
-       console.log("FizzBuzz " + x)
+       console.log("FizzBuzz ")
       else
       {
         if(x%multiple1 == 0)
-          console.log("Fizz " + x)
+          console.log("Fizz ")
         else
         {
            if(x%multiple2 == 0)
-            console.log("Buzz " + x)
+            console.log("Buzz ")
            else
             console.log(x)
         }
