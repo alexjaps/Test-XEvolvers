@@ -17,7 +17,7 @@ function readTextFile(file)
     rawFile.send(null);
 }
 
-/* I have some problem to read the json file beause cross origin warning 
+/* I have some problem to read the json file beacause cross origin warning 
 but the json reading is working with the function JsonData just feed it with a JSON Object
 */
 function ReadJsonFile(){
@@ -27,7 +27,7 @@ function ReadJsonFile(){
 		obj = '{"Paulina":{"dob": 1815,"children":{"Juan":{"dob": 1850, "children":{ "Mathew":{"dob":1867} } },"Karina":{"dob":1840} } },"Brandon":{     "dob": 1820   },   "Raul": {     "dob": 1825,     "children": {       "Pedro": {         "dob": 1861       }     }   } }';
 	}
 	var JSONParse = JSON.parse(obj);
-	JsonData(JSONParse);
+	return JsonData(JSONParse);
 }
 
 
@@ -50,15 +50,31 @@ function JsonData(JsonParse){
 	}
 	getDataFromJson(JsonParse);
 
-	YearArray = YearArray.sort(function(a, b){return a-b});
-	console.log("Names :");
-	for (x in NamesArray) {
-		console.log(NamesArray[x]);
-	}
-
-	console.log("Oldest: " + YearArray[0] + " Recent: "+YearArray[YearArray.length-1]);
+	//YearArray = YearArray.sort(function(a, b){return a-b}); //####### This method was Replaced  ############
+    var objData = {};
+    var sortArray = [];
+    var increment = YearArray.length / 2;
+    while (increment > 0) {
+        for (i = increment; i < YearArray.length; i++) {
+            var j = i;
+            var temp = YearArray[i];
+            while (j >= increment && YearArray[j-increment] > temp) {
+                YearArray[j] = YearArray[j-increment];
+                j = j - increment;
+            }
+            YearArray[j] = temp;
+        }
+        if (increment == 2) {
+            increment = 1;
+        } else {
+            increment = parseInt(increment*5 / 11);
+        }
+    }
+    for(x in YearArray){ if(YearArray[x]!= undefined){ sortArray.push(YearArray[x]); } }
+    
+    return [NamesArray,YearArray[0],YearArray[YearArray.length-1]];
+	
 }
-
-
-ReadJsonFile();
-// getData();
+/* The method return all values and here just read each one */
+var data = ReadJsonFile();
+console.log("Names:" + data[0] + "  Oldest: "+data[1] + "   Recent: "+data[2] );
